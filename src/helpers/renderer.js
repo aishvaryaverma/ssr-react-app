@@ -13,17 +13,17 @@ export default (req, store) => {
             </StaticRouter>
         </Provider>
     );
+    
+    return `
+        <html>
+            <head>
+                <title>SSR React App</title>
+            </head>
+            <body>
+                <div id="root">${content}</div>
 
-return `
-<html>
-<head>
-    <title>SSR React App</title>
-</head>
-<body>
-    <div id="root">${content}</div>
-
-    <script src="bundle.js"></script>
-</body>
-</html>
-`;
+                <script src="bundle.js"></script>
+            </body>
+        </html>
+    `;
 }

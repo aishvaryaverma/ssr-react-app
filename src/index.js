@@ -1,18 +1,31 @@
 import 'babel-polyfill';
 import express from 'express';
+import { matchRoutes } from 'react-router-config';
+import Routes from './client/Routes';
 import renderer from './helpers/renderer';
 import createStore from './helpers/createStore';
+
 const app = express();
+
 app.use(express.static('public'));
 
-app.get('*', (req, res) => {
+app.get('*', async (req, res) => {
     const store = createStore();
 
     // some login to init
     // and load data into the store
+    const promises = matchRoutes(Routes, req.path).map(({ route }) => {
+        return route.loadData ? route.loadData(store) : null;
+    });
 
+    // Promise.all(promises).then(() => {
+    //     res.send(renderer(req, store));
+    // });
+
+    await Promise.all(promises);
     res.send(renderer(req, store));
+
 });
-app.listen(3000, () => {
-    console.log('Listening on port 3000');
-});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log('Listening on port ' + PORT));
