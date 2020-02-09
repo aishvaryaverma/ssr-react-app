@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div class="comment-list" data-count="10"></div>
+    <hr>
+    <div class="comment-list" data-count="2"></div>
+    <script>
+        Array.from(document.querySelectorAll('.comment-list')).forEach((item, i) => {
+            const dataCount = item.dataset.count;
+            const element = item;
+            console.log(dataCount);
+            element.insertAdjacentHTML('beforeend', '<div class="isloading">Loading...</div>');
+            
+            fetch(`https://jsonplaceholder.typicode.com/users`)
+                .then((response) => {
+                    return response.json();
+                })
+                .then((result) => {
+                    element.innerHTML = '';
+                    const markup = result.map(item => {
+                        const { id, username, email } = item; 
+                        return `
+                            <div class="comment-item">
+                                <div class="comment-item__username">${username}</div>
+                                <div class="comment-item__message">${email}</div>
+                            </div>
+                        `;
+                    }).join('');
+                    element.insertAdjacentHTML('beforeend', markup);
+                })
+                .catch(err => {
+                    element.innerHTML = '';
+                })
+        });
+    </script>
+
+    <script>
+        // import React, {useState} from 'react';
+        // import classnames from 'classnames';
+        // // you should import `lodash` as a whole module
+        // import { debounce } from 'lodash';
+
+        // const ITEMS_API_URL = 'https://example.com/api/items';
+        // const DEBOUNCE_DELAY = 500;
+
+        // // the exported component can be either a function or a class
+        // export const ListItem = ({ item }) => {
+        //     return (
+        //         <a
+        //             href="javascript:void(0);"
+        //             className="list-item"
+        //             onClick={e => alert('Selected: ' + item)}
+        //         >
+        //             {item}
+        //         </a>
+        //     )
+        // }
+
+
+        // export default function Autocomplete() {
+        //     const [query, setQuery] = useState('');
+        //     const [listItems, setListItems] = useState([]);
+            
+        //     const onChange = debounce(
+        //         query => {
+        //             document.querySelector('.control').classList.add('is-loading');
+        //             fetch(`${ITEMS_API_URL}?q=${query}`)
+        //             .then((response) => {
+        //                 return response.json();
+        //             })
+        //             .then((result) => {
+        //                 document.querySelector('.control').classList.remove('is-loading');
+        //                 let items = result.map((item, i) => {
+        //                     // return (
+        //                     //     <a href="javascript:void(0);" className="list-item" key={i} onClick={e => alert('Selected: ' + item)}>
+        //                     //     {item}
+        //                     //     </a>
+        //                     // )
+                            
+        //                     return <ListItem item={item} key={i} />
+        //                 });
+        //                 setListItems(items);
+        //             });
+        //         },
+        //         DEBOUNCE_DELAY
+        //     );
+            
+            
+        // return (
+        //     <div className="wrapper">
+        //     <div className="control">
+        //         <input type="text" className="input" name="query" value={query} onChange={e => onChange(setQuery(e.target.value))} />
+        //     </div>
+        //     <div className="list is-hoverable">{listItems}</div>
+        //     </div>
+        // );
+        // }
+
+
+    </script>
+</body>
+</html>
