@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 class UsersListPage extends Component {
     componentDidMount() {
+        if(this.props.users.length > 0) return
         this.props.fetchUsers();
     }
 
@@ -33,8 +34,8 @@ const mapStateToProps = state => ({
     users: state.users
 });
 
-const loadData = (store) => {
-    return store.dispatch(fetchUsers());
+const loadData = ({ dispatch }) => {
+    return dispatch(fetchUsers());
 }
 
 export default {
