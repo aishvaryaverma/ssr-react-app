@@ -1,10 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const HomePage = ()  => {
     return (
         <div>
             <div>I'm the BEST home component</div>
-            <button onClick={() => { console.log('Hi there!') }}>Press me!</button>
+            <Link to="/users">Press me!</Link>
         </div>
     )
 }

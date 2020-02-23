@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchUsers } from '../actions';
+import { Link } from 'react-router-dom';
 
 class UsersListPage extends Component {
     componentDidMount() {
@@ -22,6 +23,7 @@ class UsersListPage extends Component {
                 <ul>
                     {this.renderUsers()}
                 </ul>
+                <Link to="/">Back to home</Link>
             </div>
         )
     }
