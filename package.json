@@ -1,16 +1,16 @@
 {
 	"name": "react-ssr",
 	"version": "1.0.0",
-	"description": "Server side rendering project",
+	"description": "React server side rendering project",
 	"main": "index.js",
+	"license": "ISC",
+	"author": "Aishvarya Verma",
 	"scripts": {
 		"dev": "npm-run-all --parallel dev:*",
 		"dev:server": "nodemon --watch build --exec \"node build/bundle.js\"",
 		"dev:build-server": "webpack --config webpack.server.js --mode development --watch",
 		"dev:build-client": "webpack --config webpack.client.js --mode development --watch"
 	},
-	"author": "Aishvarya Verma",
-	"license": "ISC",
 	"dependencies": {
 		"axios": "^0.19.2",
 		"babel-cli": "6.26.0",

@@ -6,7 +6,7 @@ import Routes from './client/Routes';
 import renderer from './helpers/renderer';
 import createStore from './helpers/createStore';
 
-const app = express();
+const app = express()
 
 app.use('/api', proxy('http://react-ssr-api.herokuapp.com', {
     proxyReqOptDecorator(opts) {
@@ -15,25 +15,36 @@ app.use('/api', proxy('http://react-ssr-api.herokuapp.com', {
     }
 }))
 
-app.use(express.static('public'));
+app.use(express.static('public'))
 
 app.get('*', async (req, res) => {
-    const store = createStore(req);
+    const store = createStore(req)
 
     // some login to init
     // and load data into the store
     const promises = matchRoutes(Routes, req.path).map(({ route }) => {
         return route.loadData ? route.loadData(store) : null;
-    });
+    }).map(promise => {
+        if (promise) {
+            return new Promise((resolve, reject) => {
+                promise.then(resolve).catch(resolve)
+            })
+        }
+    })
 
-    // Promise.all(promises).then(() => {
-    //     res.send(renderer(req, store));
-    // });
+    await Promise.all(promises)
 
-    await Promise.all(promises);
-    res.send(renderer(req, store));
+    const context = {}
+    const content = renderer(req, store, context)
 
-});
+    if (context.url) {
+        res.redirect(301, context.url)
+    }
+    if (context.notFound) {
+        res.status(404)
+    }
+    res.send(content)
+})
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log('Listening on port ' + PORT));
+const PORT = process.env.PORT || 3000
+app.listen(PORT, () => console.log('Listening on port ' + PORT))

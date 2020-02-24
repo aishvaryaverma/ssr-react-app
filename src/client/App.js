@@ -7,11 +7,14 @@ const App = ({ route }) => {
     return (
         <div>
             <Header />
-            {renderRoutes(route.routes)}
+            <div className="contentBox">
+                {renderRoutes(route.routes)}
+            </div>
         </div>
     )
 }
 
 export default {
-    component: App
+    component: App,
+    loadData: ({ dispatch }) => dispatch(fetchCurrentUser())
 }

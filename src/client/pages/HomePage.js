@@ -1,11 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
-const HomePage = ()  => {
+const HomePage = () => {
     return (
         <div>
+            <Helmet>
+                <title>SSR React App</title>
+            </Helmet>
             <div>I'm the BEST home component</div>
-            <Link to="/users">Press me!</Link>
+            <button onClick={() => console.log('Press me clicked!!')}>Press me!</button>
         </div>
     )
 }

@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchUsers } from '../actions';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 class UsersListPage extends Component {
     componentDidMount() {
-        if(this.props.users.length > 0) return
+        if (this.props.users.length > 0) return
         this.props.fetchUsers();
     }
 
@@ -20,6 +21,9 @@ class UsersListPage extends Component {
     render() {
         return (
             <div>
+                <Helmet>
+                    <title>Users List | SSR React App</title>
+                </Helmet>
                 Here's a big list of users:
                 <ul>
                     {this.renderUsers()}
