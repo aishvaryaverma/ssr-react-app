@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
     // Tell webpack to run every file it run through
     module: {
@@ -7,10 +9,13 @@ module.exports = {
                 loader: 'babel-loader',
                 exclude: /node_modules/,
                 options: {
+                    // presets: [
+                    //     '@babel/preset-react',
+                    //     ['@babel/preset-env', { targets: { browsers: ['last 2 versions'] } }]
+                    // ]
                     presets: [
-                        'react',
-                        'stage-0',
-                        ['env', { targets: { browsers: ['last 2 versions'] } }]
+                        '@babel/preset-react',
+                        ['@babel/preset-env', { "targets": { "browsers": ['last 2 versions'] } }],
                     ]
                 }
             }
